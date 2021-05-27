@@ -1,41 +1,38 @@
 package akkocdesign.hrms.entities.concretes;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = false)
 @Data
-@NoArgsConstructor
 @Entity
+@EqualsAndHashCode(callSuper = false)
+@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "candidates")
 public class Candidate extends User{
-	
-	@Column(name ="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
 	
-	@Column(name ="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 	
-	@Column(name ="national_identity")
-	private String nationalIdentity;
+	@Column(name = "nationality_id")
+	private String nationalityId;
 	
-	@Column(name ="birth_date")
-	private Date birthDate;
-
-	public Candidate(int id, String email, String password, String firstName, String lastName, String nationalIdentity,
-			Date birthDate) {
-		super(id, email, password);
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.nationalIdentity = nationalIdentity;
-		this.birthDate = birthDate;
-	}
+	@Column(name = "date_of_birth")
+	private LocalDate dateOfBirth;
 	
+	@Column(name = "is_verified_by_email")
+	private Boolean isEmailVerified;
 }
