@@ -9,6 +9,6 @@ import akkocdesign.hrms.entities.concretes.Employer;
 public interface EmployerService {
 	Result add(Employer employer);
 	DataResult<List<Employer>> getAll();
-	DataResult<Employer> getByEmail(String email);
+	// DataResult<Employer> getByEmail(String email);
 
 }

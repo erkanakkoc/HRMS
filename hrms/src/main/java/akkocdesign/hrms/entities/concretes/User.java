@@ -1,6 +1,6 @@
 package akkocdesign.hrms.entities.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 
 import javax.persistence.Column; 
 import javax.persistence.Entity;
@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name="users")
+@Inheritance(strategy=InheritanceType.JOINED)  // miras verdiği sınıfa ozelliklerini aktarır?
 public class User {
 	
 	@Id
@@ -39,10 +39,17 @@ public class User {
 	
 	@Column(name="is_active",columnDefinition = "boolean default true") // default'u true der
 	private Boolean isActive=true;
-	
-	@Column(name="created_date",columnDefinition = "Date defult CURRENT_DATE")
-	private LocalDate createdDate=LocalDate.now();
-	
+
 	@Column(name="is_deleted",columnDefinition = "boolean default false")
 	private Boolean isDeleted= false;
+	
+	
+// HRMS V3	
+//	@Column(name="created_date",columnDefinition = "Date defult CURRENT_DATE")
+//	private LocalDate createdDate=LocalDate.now();
+	
+	
+//	HRMS V1
+	@Column(name= "created_at", columnDefinition = "Date defult CURRENT_DATE")
+	private LocalDate createdAt = LocalDate.now();
 }

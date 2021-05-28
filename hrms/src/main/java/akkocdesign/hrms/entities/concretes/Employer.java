@@ -23,16 +23,28 @@ public class Employer extends User{
 	@Column(name = "company_name")
 	private String companyName;
 	
-	@Column(name = "web_site")
-	private String webSite;
+	
 	
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
-	@Column(name="is_email_verified")
-	private Boolean isEmailVerified;
+	
+	//HRMS v3
+//	@Column(name = "web_site")
+//	private String webSite;
+	
+//	@Column(name="is_email_verified")
+//	private Boolean isEmailVerified;
     
-    @Column(name="is_verified_by_emlopyee")
-	private Boolean isVerifiedByEmlopyee;
+//    @Column(name="is_verified_by_emlopyee")
+//	private Boolean isVerifiedByEmlopyee;
+    
+    
+    //HRMS V1
+	@Column(name= "website")
+	private String website;
+    
+    @Column(name = "is_verified", columnDefinition = "boolean default false")
+	private boolean isVerified = false;
 
 }

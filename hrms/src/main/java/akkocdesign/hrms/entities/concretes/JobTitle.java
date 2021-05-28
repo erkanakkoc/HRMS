@@ -16,7 +16,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="job_titles")
+//HRMS V3
+//@Table(name="job_titles")
+
+//HRMS v1
+@Table(name="job_positions")
+
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -29,20 +34,29 @@ public class JobTitle {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="title_name")
-	private String titleName;
-	
-	@Column(name = "description")
-	private String description;
-	
-	@Column(name="created_date",columnDefinition = "Date default CURRENT_DATE")
-	private LocalDate createdDate=LocalDate.now();
-	
 	@Column(name="is_active",columnDefinition = "boolean default true")
 	private Boolean isActive =true;
 	
 	@Column(name="is_deleted",columnDefinition = "boolean default false")
 	private Boolean isDeleted=false;
+	
+	//HRMS V3
+	
+//	@Column(name="title_name")
+//	private String titleName;
+	
+//	@Column(name = "description")
+//	private String description;
+	
+//	@Column(name="created_date",columnDefinition = "Date default CURRENT_DATE")
+//	private LocalDate createdDate=LocalDate.now();
+	
+	//HRMS V1
 
+	@Column(name="job_title")
+	private String jobTitle;
+	
+	@Column(name= "created_at", columnDefinition = "Date default CURRENT_DATE")
+	private LocalDate createdDate = LocalDate.now();
 
 }

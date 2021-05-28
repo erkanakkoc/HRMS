@@ -1,6 +1,6 @@
 package akkocdesign.hrms.business.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import akkocdesign.hrms.business.abstracts.AuthService;
 import akkocdesign.hrms.business.abstracts.CandidateService;
 import akkocdesign.hrms.business.abstracts.EmployerService;
 import akkocdesign.hrms.business.abstracts.VerificationCodeService;
+
 import akkocdesign.hrms.core.utilities.results.ErrorResult;
 import akkocdesign.hrms.core.utilities.results.Result;
 import akkocdesign.hrms.core.utilities.results.SuccessResult;
@@ -66,7 +67,7 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public Result registerCandidate(Candidate candidate, String confirmedPassword) {
-if(!checkIfEqualPasswordAndConfirmPassword(candidate.getPassword(),confirmedPassword)) {
+		if(!checkIfEqualPasswordAndConfirmPassword(candidate.getPassword(),confirmedPassword)) {
 			
 			return new ErrorResult("Passwords do not match !");
 		}
@@ -88,7 +89,7 @@ if(!checkIfEqualPasswordAndConfirmPassword(candidate.getPassword(),confirmedPass
 	}
 
 	@Override
-public Result verifyEmail(int user_id, String activationCode) {
+	public Result verifyEmail(int user_id, String activationCode) {
 		
 		var result = this.codeService.getByUserIdAndVerificationCode(user_id, activationCode);
 		

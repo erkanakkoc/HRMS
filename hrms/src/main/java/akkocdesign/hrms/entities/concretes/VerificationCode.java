@@ -29,30 +29,51 @@ public class VerificationCode {
 	@Column(name="user_id")
 	private int userId;
 	
-	@Column(name="verification_code")
-	private String verificationCode;  // TODO emailVerificationCode diye değiştir.
+	//HRMS-V1
+	@Column(name="code")
+	private String code;
 	
-	@Column(name="created_date",columnDefinition = "Date defult CURRENT_DATE")
-	private LocalDate createdDate=LocalDate.now();
+	@Column(name="is_confirmed")
+	private boolean isConfirmed;
 	
-	@Column(name="expired_date")  // ?
-	private LocalDate expiredDate;
-	
-	@Column(name="is_activate",columnDefinition = "boolean default false") 
-	private Boolean isActivate;
-	
-	@Column(name="is_deleted",columnDefinition = "boolean default false")
-	private Boolean isDeleted=false;
-	
-	@Column(name="confirmed_date")  //  ?
-	private LocalDate confirmedDate;
+	@Column(name="created_at", columnDefinition = "Date defult CURRENT_DATE")
+	private LocalDate createAt = LocalDate.now();
 
-	public VerificationCode(int userId, String verificationCode, LocalDate expiredDate) {
+	public VerificationCode(int userId, String code, boolean isConfirmed, LocalDate createAt) {
 		super();
 		this.userId = userId;
-		this.verificationCode = verificationCode;
-		this.expiredDate = expiredDate;
+		this.code = code;
+		this.isConfirmed = isConfirmed;
+		this.createAt = createAt;
 	}
+	
+	
+	//HRMS V3
+	
+//	@Column(name="verification_code")
+//	private String verificationCode;  // TODO emailVerificationCode diye değiştir.
+	
+//	@Column(name="created_date",columnDefinition = "Date defult CURRENT_DATE")
+//	private LocalDate createdDate=LocalDate.now();
+	
+//	@Column(name="expired_date")  // ?
+//	private LocalDate expiredDate;
+	
+//	@Column(name="is_activate",columnDefinition = "boolean default false") 
+//	private Boolean isActivate;
+	
+//	@Column(name="is_deleted",columnDefinition = "boolean default false")
+//	private Boolean isDeleted=false;
+	
+//	@Column(name="confirmed_date")  //  ?
+//	private LocalDate confirmedDate;
+
+//	public VerificationCode(int userId, String verificationCode, LocalDate expiredDate) {
+//		super();
+//		this.userId = userId;
+//		this.verificationCode = verificationCode;
+//		this.expiredDate = expiredDate;
+//	}
 	
 	
 }

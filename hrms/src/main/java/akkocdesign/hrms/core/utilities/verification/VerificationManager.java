@@ -7,17 +7,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class VerificationManager implements VerificationService{
 
-	@Override
-	public void sendVerificationCode(String email) {
-		UUID uuid= UUID.randomUUID();
-		String verificationLink = "https://hrmsverificationmail/" + uuid.toString();
+	//HRMS v3
+//	@Override
+//	public void sendVerificationCode(String email) {
+//		UUID uuid= UUID.randomUUID();
+//		String verificationLink = "https://hrmsverificationmail/" + uuid.toString();
 		
+//	}
+
+//	@Override
+//	public String codeGenerator() {
+//		UUID uuid = UUID.randomUUID();
+//		String verificationCode = uuid.toString();
+//		return verificationCode;
+//	}
+	
+	
+	//HRMS v1
+	@Override
+	public void sendLink(String email) {
+		UUID uuid = UUID.randomUUID();
+		String verificationLink = "https://hrmsverificationmail/" + uuid.toString();
+		System.out.println("Verification link has been sent to " + email );
+		System.out.println("Please click on the link to verify your account:  " + verificationLink );
 	}
 
 	@Override
-	public String codeGenerator() {
+	public String sendCode() {
 		UUID uuid = UUID.randomUUID();
 		String verificationCode = uuid.toString();
+		System.out.println("Your activation code:  " + verificationCode );
 		return verificationCode;
 	}
 

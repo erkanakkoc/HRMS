@@ -6,8 +6,10 @@ import akkocdesign.hrms.entities.concretes.VerificationCode;
 
 public interface VerificationCodeService {
 	Result add(VerificationCode code);
-	Result update(VerificationCode code);
-	DataResult<VerificationCode> getByUserIdAndVerificationCode(int userId, String verificationCode);
+	
+	//HRMS v3
+	//Result update(VerificationCode code);
+	//DataResult<VerificationCode> getByUserIdAndVerificationCode(int userId, String verificationCode);
 	
 
 }

@@ -5,7 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import akkocdesign.hrms.entities.concretes.Candidate;
 
 public interface CandidateDao extends JpaRepository<Candidate, Integer>{
-	Candidate findByNationalityId(String nationalityId);
+	//HRMS v1
+	Candidate findJobseekerByNationalId(String nationalId);
 	
-	Candidate findByEmail(String email);
+	//HRMS v3
+	//Candidate findByNationalityId(String nationalityId);
+	
+	//Candidate findByEmail(String email);
 }

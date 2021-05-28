@@ -6,4 +6,6 @@ import akkocdesign.hrms.entities.concretes.User;
 
 public interface UserDao extends JpaRepository<User, Integer>{
 
+	//HRMS V1
+	User findUserByEmail(String email);
 }
