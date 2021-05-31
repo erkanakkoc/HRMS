@@ -8,4 +8,5 @@ public interface UserDao extends JpaRepository<User, Integer>{
 
 	//HRMS V1
 	User findUserByEmail(String email);
+	User getById(int id);
 }

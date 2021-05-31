@@ -7,25 +7,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import akkocdesign.hrms.business.abstracts.CandidateService;
+import akkocdesign.hrms.business.abstracts.UserService;
 import akkocdesign.hrms.core.utilities.results.DataResult;
-import akkocdesign.hrms.entities.concretes.Candidate;
+import akkocdesign.hrms.entities.concretes.User;
 
 @RestController
-@RequestMapping("api/candidates")
-public class CandidateController {
-	
-	private CandidateService candidateService;
+@RequestMapping("/api/users")
+public class UsersController {
+	private UserService userService;
 
 	@Autowired
-	public CandidateController(CandidateService candidateService) {
+	public UsersController(UserService userService) {
 		super();
-		this.candidateService = candidateService;
+		this.userService = userService;
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<Candidate>> getAll(){
-		return this.candidateService.getAll();
+	public DataResult<List<User>> getAll(){
+		return this.userService.getAll();
 	}
 
 }

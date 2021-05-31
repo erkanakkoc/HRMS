@@ -1,8 +1,8 @@
 package akkocdesign.hrms.business.abstracts;
 
 import akkocdesign.hrms.core.utilities.results.Result;
-import akkocdesign.hrms.entities.concretes.Candidate;
 import akkocdesign.hrms.entities.concretes.Employer;
+import akkocdesign.hrms.entities.concretes.JobSeeker;
 
 public interface AuthService {
 	
@@ -14,5 +14,5 @@ public interface AuthService {
 
 	//HRMS v1
 	Result registerEmployer(Employer employer, String confirmPassword);
-	Result registerJobseeker(Candidate candidate, String confirmPassword);
+	Result registerJobSeeker(JobSeeker jobSeeker, String confirmPassword);
 }

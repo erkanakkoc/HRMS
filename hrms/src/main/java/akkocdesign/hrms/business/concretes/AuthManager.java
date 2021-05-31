@@ -1,136 +1,200 @@
 package akkocdesign.hrms.business.concretes;
 
-import java.time.LocalDate; 
+import java.time.LocalDate;  
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import akkocdesign.hrms.business.abstracts.AuthService;
-import akkocdesign.hrms.business.abstracts.CandidateService;
 import akkocdesign.hrms.business.abstracts.EmployerService;
+import akkocdesign.hrms.business.abstracts.JobSeekerService;
+import akkocdesign.hrms.business.abstracts.UserService;
 import akkocdesign.hrms.business.abstracts.VerificationCodeService;
-
+import akkocdesign.hrms.business.constants.Messages;
+import akkocdesign.hrms.core.utilities.adapters.mernis.ValidationService;
 import akkocdesign.hrms.core.utilities.results.ErrorResult;
 import akkocdesign.hrms.core.utilities.results.Result;
 import akkocdesign.hrms.core.utilities.results.SuccessResult;
 import akkocdesign.hrms.core.utilities.verification.VerificationService;
-import akkocdesign.hrms.entities.concretes.Candidate;
 import akkocdesign.hrms.entities.concretes.Employer;
+import akkocdesign.hrms.entities.concretes.JobSeeker;
 import akkocdesign.hrms.entities.concretes.VerificationCode;
 
 @Service("AuthManager")
 public class AuthManager implements AuthService {
 	
-	private CandidateService candidateService;
+
+	private UserService userService;
 	private EmployerService employerService;
-	private VerificationCodeService codeService;
+	private JobSeekerService jobSeekerService;
 	private VerificationService verificationService;
+	private ValidationService validationService;
+	private VerificationCodeService verificationCodeService;
 		
 
 	@Autowired
-	public AuthManager(CandidateService candidateService, EmployerService employerService,
-			VerificationCodeService codeService, VerificationService verificationService) {
+	public AuthManager(UserService userService, EmployerService employerService, JobSeekerService jobSeekerService,
+			VerificationService verificationService, ValidationService validationService,
+			VerificationCodeService verificationCodeService) {
 		super();
-		this.candidateService = candidateService;
+		this.userService = userService;
 		this.employerService = employerService;
-		this.codeService = codeService;
+		this.jobSeekerService = jobSeekerService;
 		this.verificationService = verificationService;
+		this.validationService = validationService;
+		this.verificationCodeService = verificationCodeService;
+	}
+
+	
+
+
+	@Override
+	public Result registerEmployer(Employer employer, String confirmPassword) {
+
+		if (!checkIfNullInfoForEmployer(employer)) {
+
+			return new ErrorResult(Messages.missingInformation);
+		}
+
+		if (!checkIfEqualEmailAndDomain(employer.getEmail(), employer.getWebsite())) {
+
+			return new ErrorResult(Messages.invalidEmailAddress);
+		}
+
+		if (!checkIfEmailExists(employer.getEmail())) {
+
+			return new ErrorResult(employer.getEmail() + Messages.emailIsAlreadyExist);
+		}
+
+		if (!checkIfEqualPasswordAndConfirmPassword(employer.getPassword(), confirmPassword)) {
+
+			return new ErrorResult(Messages.passwordsNotMatch);
+		}
+
+		employerService.add(employer);
+		String code = verificationService.sendCode();
+		verificationCodeRecord(code, employer.getId(), employer.getEmail());
+		return new SuccessResult(Messages.registrationSuccessfully);
+
 	}
 
 	@Override
-	public Result registerEmployer(Employer employer, String confirmedPassword) {
-        
-       if(!checkIfEqualPasswordAndConfirmPassword(employer.getPassword(),confirmedPassword)) {
-			
-			return new ErrorResult("Passwords do not match !");
+	public Result registerJobSeeker(JobSeeker jobSeeker, String confirmPassword) {
+
+		if (checkIfRealPerson(Long.parseLong(jobSeeker.getNationalId()), jobSeeker.getFirstName(),
+				jobSeeker.getLastName(), jobSeeker.getDateOfBirth().getYear()) == false) {
+			return new ErrorResult(Messages.notVerifiedNationalIdentity);
 		}
+
+		if (!checkIfNullInfoForJobseeker(jobSeeker, confirmPassword)) {
+
+			return new ErrorResult(Messages.missingInformation);
+		}
+
+		if (!checkIfExistsTcNo(jobSeeker.getNationalId())) {
+
+			return new ErrorResult(jobSeeker.getNationalId() + Messages.nationalIdentityIsAlreadyExist);
+		}
+
+		if (!checkIfEmailExists(jobSeeker.getEmail())) {
+
+			return new ErrorResult(jobSeeker.getEmail() + Messages.emailIsAlreadyExist);
+		}
+
 		
-		var result = this.employerService.add(employer);
-		
-         if(result.isSuccess()) {
-        	 
-        	 
-         // TODO metot içine sok... 
-         // TODO Yarın buradan devam et... !
-        	 String code = this.verificationService.codeGenerator(); // verification code ürettim
- 			this.verificationService.sendVerificationCode(code);  // gönderdim
- 			
- 			VerificationCode umut = new VerificationCode(employer.getId(),code,LocalDate.now().plusDays(1));
- 			this.codeService.add(umut);  // veri tabanına ekledim.
-        	 
-		   return new SuccessResult("Employer Registered !");
-		   
-           }
-          return new ErrorResult("something's gone wrong... Please try again.");
-	
+		jobSeekerService.add(jobSeeker);
+		String code = verificationService.sendCode();
+		verificationCodeRecord(code, jobSeeker.getId(), jobSeeker.getEmail());
+		return new SuccessResult(Messages.registrationSuccessfully);
 	}
 
-	@Override
-	public Result registerCandidate(Candidate candidate, String confirmedPassword) {
-		if(!checkIfEqualPasswordAndConfirmPassword(candidate.getPassword(),confirmedPassword)) {
-			
-			return new ErrorResult("Passwords do not match !");
+	// Validation for employer register ---START---
+
+	private boolean checkIfNullInfoForEmployer(Employer employer) {
+
+		if (employer.getCompanyName() != null && employer.getWebsite() != null && employer.getEmail() != null
+				&& employer.getPhoneNumber() != null && employer.getPassword() != null) {
+
+			return true;
+
 		}
-		
-		var result = this.candidateService.add(candidate);
-		
-		if(result.isSuccess()) {
-			
-			String code = this.verificationService.codeGenerator(); // verification code ürettim
-			this.verificationService.sendVerificationCode(code);  // gönderdim
-			
-			VerificationCode umut = new VerificationCode(candidate.getId(),code,LocalDate.now().plusDays(1));
-			this.codeService.add(umut);  // veri tabanına ekledim.
-			
-			return new SuccessResult("Candidate Registered !");
-		
-		}
-		return new ErrorResult("something's gone wrong... Please try again.");
+
+		return false;
 	}
 
-	@Override
-	public Result verifyEmail(int user_id, String activationCode) {
-		
-		var result = this.codeService.getByUserIdAndVerificationCode(user_id, activationCode);
-		
-	    if(result.getData() ==null) {
-	    	
-	    	return new ErrorResult("Verification Code is wrong !");
-	    }
-	    
-	    if(result.getData().getIsActivate()) {
-	    	return new ErrorResult("Verification Code is already active");
-	    }
-	    
-	    if(result.getData().getExpiredDate().isBefore(LocalDate.now())){
-	 
-	    	return new ErrorResult("Verification Code is Expired");
-	    }
-	   
-	    // TODO: abla intihar etmeden önce  --- aha umut gör :P 
-	  
-	    
-	    VerificationCode verificationCode = result.getData();
-	    
-	    verificationCode.setConfirmedDate(LocalDate.now());
-	    verificationCode.setIsActivate(true);
-	    this.codeService.update(verificationCode);
-	   
-	    return new SuccessResult("Verified !");
+	private boolean checkIfEqualEmailAndDomain(String email, String website) {
+		String[] emailArr = email.split("@", 2);
+		String domain = website.substring(4, website.length());
 
-	}
-	
-	
-	// confirmed password
-	
-		private boolean checkIfEqualPasswordAndConfirmPassword(String password, String confirmPassword) {
-
-			
-			if (!password.equals(confirmPassword)) {
-				return false;
-			}
+		if (emailArr[1].equals(domain)) {
 
 			return true;
 		}
 
+		return false;
+	}
+
+	// Validation for employer register ---END---
+
+	// Validation for jobseeker register ---START---
+	
+	private boolean checkIfNullInfoForJobseeker(JobSeeker jobseeker, String confirmPassword) {
+
+		if (jobseeker.getFirstName() != null && jobseeker.getLastName() != null && jobseeker.getNationalId() != null
+				&& jobseeker.getDateOfBirth() != null && jobseeker.getPassword() != null && jobseeker.getEmail() != null
+				&& confirmPassword != null) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	private boolean checkIfExistsTcNo(String nationalId) {
+
+		if (this.jobSeekerService.getJobSeekerByNationalId(nationalId).getData() == null) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkIfRealPerson(long nationalId, String firstName, String lastName, int yearOfBirth) {
+
+		if (validationService.validateByMernis(nationalId, firstName, lastName, yearOfBirth)) {
+			return true;
+		}
+		return false;
+	}
+
+	// Validation for jobSeeker register ---END---
+
+	// Common Validation
+
+	private boolean checkIfEmailExists(String email) {
+
+		if (this.userService.getUserByEmail(email).getData() == null) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean checkIfEqualPasswordAndConfirmPassword(String password, String confirmPassword) {
+
+		if (!password.equals(confirmPassword)) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	private void verificationCodeRecord(String code, int id, String email) {
+		
+		VerificationCode verificationCode = new VerificationCode(id, code, false, LocalDate.now());
+		this.verificationCodeService.add(verificationCode);
+		System.out.println("Verification code has been sent to " + email );
+	
+	}
 }

@@ -8,32 +8,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import akkocdesign.hrms.business.abstracts.JobTitleService;
 import akkocdesign.hrms.core.utilities.results.DataResult;
 import akkocdesign.hrms.core.utilities.results.Result;
-import akkocdesign.hrms.entities.concretes.JobTitle;
+import akkocdesign.hrms.entities.concretes.JobSeeker;
+import akkocdesign.hrms.business.abstracts.JobSeekerService;
 
 @RestController
-@RequestMapping("/api/jobtitles")
-public class JobTitlesController {
-	private JobTitleService jobTitleService;
+@RequestMapping("/api/jobSeekers")
+public class JobSeekersController {
+	private JobSeekerService jobSeekerService;
 
 	@Autowired
-	public JobTitlesController(JobTitleService jobTitleService) { //JobTitleManager referansını tutar
+	public JobSeekersController(JobSeekerService jobSeekerService) {
 		super();
-		this.jobTitleService = jobTitleService;
-	}
-	
-	@GetMapping("/getall")
-	public DataResult<List<JobTitle>> getAll(){
-		return this.jobTitleService.getAll();
+		this.jobSeekerService = jobSeekerService;
 	}
 	
 	@PostMapping("/add")
-	public Result registerCandidate(@RequestBody JobTitle jobTitle) {
-		
-		return this.jobTitleService.add(jobTitle);
-				
+	public Result add(@RequestBody JobSeeker jobSeeker){
+		return this.jobSeekerService.add(jobSeeker);
 	}
+
+	@GetMapping("/getall")
+	public DataResult<List<JobSeeker>> getAll(){
+		return this.jobSeekerService.getAll();
+	}
+	
 }

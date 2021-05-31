@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="employees")
-@EqualsAndHashCode(callSuper=false) 
-@PrimaryKeyJoinColumn(name = "user_id",referencedColumnName = "id")  // extend ettigin sinifin ozelliklerini alir.
+//@EqualsAndHashCode(callSuper=false) 
+// @PrimaryKeyJoinColumn(name = "user_id",referencedColumnName = "id")  // extend ettigin sinifin ozelliklerini alir.
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Employee extends User { 
 
 	@Column(name="first_name")

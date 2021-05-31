@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import akkocdesign.hrms.mernisService.FakeMernisService;
 
 @Service
-public class MernisServiceAdapter implements UserCheckService{
+public class MernisServiceAdapter implements ValidationService{
 
 	//HRMS v3
 	
