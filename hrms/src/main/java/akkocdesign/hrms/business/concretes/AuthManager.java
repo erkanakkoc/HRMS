@@ -1,13 +1,13 @@
 package akkocdesign.hrms.business.concretes;
 
-import java.time.LocalDate;  
+import java.time.LocalDate;   
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import akkocdesign.hrms.business.abstracts.AuthService;
 import akkocdesign.hrms.business.abstracts.EmployerService;
-import akkocdesign.hrms.business.abstracts.JobSeekerService;
+import akkocdesign.hrms.business.abstracts.CandidateService;
 import akkocdesign.hrms.business.abstracts.UserService;
 import akkocdesign.hrms.business.abstracts.VerificationCodeService;
 import akkocdesign.hrms.business.constants.Messages;
@@ -17,7 +17,7 @@ import akkocdesign.hrms.core.utilities.results.Result;
 import akkocdesign.hrms.core.utilities.results.SuccessResult;
 import akkocdesign.hrms.core.utilities.verification.VerificationService;
 import akkocdesign.hrms.entities.concretes.Employer;
-import akkocdesign.hrms.entities.concretes.JobSeeker;
+import akkocdesign.hrms.entities.concretes.Candidate;
 import akkocdesign.hrms.entities.concretes.VerificationCode;
 
 @Service("AuthManager")
@@ -26,20 +26,20 @@ public class AuthManager implements AuthService {
 
 	private UserService userService;
 	private EmployerService employerService;
-	private JobSeekerService jobSeekerService;
+	private CandidateService candidateService;
 	private VerificationService verificationService;
 	private ValidationService validationService;
 	private VerificationCodeService verificationCodeService;
 		
 
 	@Autowired
-	public AuthManager(UserService userService, EmployerService employerService, JobSeekerService jobSeekerService,
+	public AuthManager(UserService userService, EmployerService employerService, CandidateService candidateService,
 			VerificationService verificationService, ValidationService validationService,
 			VerificationCodeService verificationCodeService) {
 		super();
 		this.userService = userService;
 		this.employerService = employerService;
-		this.jobSeekerService = jobSeekerService;
+		this.candidateService = candidateService;
 		this.verificationService = verificationService;
 		this.validationService = validationService;
 		this.verificationCodeService = verificationCodeService;
@@ -192,7 +192,7 @@ public class AuthManager implements AuthService {
 	
 	private void verificationCodeRecord(String code, int id, String email) {
 		
-		VerificationCode verificationCode = new VerificationCode(id, code, false, LocalDate.now());
+		VerificationCode verificationCode = new VerificationCode(id, code, false);
 		this.verificationCodeService.add(verificationCode);
 		System.out.println("Verification code has been sent to " + email );
 	
