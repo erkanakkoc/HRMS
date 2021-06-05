@@ -14,7 +14,7 @@ import akkocdesign.hrms.core.utilities.results.SuccessResult;
 import akkocdesign.hrms.dataAccess.abstracts.JobAdvertDao;
 import akkocdesign.hrms.entities.concretes.JobAdvert;
 
-@Service
+@Service("JobAdvertManager")
 public class JobAdvertManager implements JobAdvertService{
 	private JobAdvertDao jobAdvertDao;
 

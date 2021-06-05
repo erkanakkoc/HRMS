@@ -1,6 +1,6 @@
 package akkocdesign.hrms.business.abstracts;
 
-import java.util.List;
+import java.util.List; 
 
 import akkocdesign.hrms.core.utilities.results.DataResult;
 import akkocdesign.hrms.core.utilities.results.Result;

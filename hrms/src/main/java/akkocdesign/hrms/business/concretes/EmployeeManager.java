@@ -11,7 +11,7 @@ import akkocdesign.hrms.core.utilities.results.SuccessDataResult;
 import akkocdesign.hrms.dataAccess.abstracts.EmployeeDao;
 import akkocdesign.hrms.entities.concretes.Employee;
 
-@Service
+@Service("EmployeeManager")
 public class EmployeeManager implements EmployeeService{
 	private EmployeeDao employeeDao;
 

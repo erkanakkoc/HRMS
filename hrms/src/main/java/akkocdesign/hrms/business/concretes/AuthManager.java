@@ -1,6 +1,6 @@
 package akkocdesign.hrms.business.concretes;
 
-import java.time.LocalDate;   
+import java.time.LocalDate;    
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,32 +79,32 @@ public class AuthManager implements AuthService {
 	}
 
 	@Override
-	public Result registerJobSeeker(JobSeeker jobSeeker, String confirmPassword) {
+	public Result registerCandidate(Candidate candidate, String confirmPassword) {
 
-		if (checkIfRealPerson(Long.parseLong(jobSeeker.getNationalId()), jobSeeker.getFirstName(),
-				jobSeeker.getLastName(), jobSeeker.getDateOfBirth().getYear()) == false) {
+		if (checkIfRealPerson(Long.parseLong(candidate.getNationalId()), candidate.getFirstName(),
+				candidate.getLastName(), candidate.getDateOfBirth().getYear()) == false) {
 			return new ErrorResult(Messages.notVerifiedNationalIdentity);
 		}
 
-		if (!checkIfNullInfoForJobseeker(jobSeeker, confirmPassword)) {
+		if (!checkIfNullInfoForJobseeker(candidate, confirmPassword)) {
 
 			return new ErrorResult(Messages.missingInformation);
 		}
 
-		if (!checkIfExistsTcNo(jobSeeker.getNationalId())) {
+		if (!checkIfExistsTcNo(candidate.getNationalId())) {
 
-			return new ErrorResult(jobSeeker.getNationalId() + Messages.nationalIdentityIsAlreadyExist);
+			return new ErrorResult(candidate.getNationalId() + Messages.nationalIdentityIsAlreadyExist);
 		}
 
-		if (!checkIfEmailExists(jobSeeker.getEmail())) {
+		if (!checkIfEmailExists(candidate.getEmail())) {
 
-			return new ErrorResult(jobSeeker.getEmail() + Messages.emailIsAlreadyExist);
+			return new ErrorResult(candidate.getEmail() + Messages.emailIsAlreadyExist);
 		}
 
 		
-		jobSeekerService.add(jobSeeker);
+		candidateService.add(candidate);
 		String code = verificationService.sendCode();
-		verificationCodeRecord(code, jobSeeker.getId(), jobSeeker.getEmail());
+		verificationCodeRecord(code, candidate.getId(), candidate.getEmail());
 		return new SuccessResult(Messages.registrationSuccessfully);
 	}
 
@@ -136,12 +136,12 @@ public class AuthManager implements AuthService {
 
 	// Validation for employer register ---END---
 
-	// Validation for jobseeker register ---START---
+	// Validation for candidate register ---START---
 	
-	private boolean checkIfNullInfoForJobseeker(JobSeeker jobseeker, String confirmPassword) {
+	private boolean checkIfNullInfoForJobseeker(Candidate candidate, String confirmPassword) {
 
-		if (jobseeker.getFirstName() != null && jobseeker.getLastName() != null && jobseeker.getNationalId() != null
-				&& jobseeker.getDateOfBirth() != null && jobseeker.getPassword() != null && jobseeker.getEmail() != null
+		if (candidate.getFirstName() != null && candidate.getLastName() != null && candidate.getNationalId() != null
+				&& candidate.getDateOfBirth() != null && candidate.getPassword() != null && candidate.getEmail() != null
 				&& confirmPassword != null) {
 
 			return true;
@@ -153,7 +153,7 @@ public class AuthManager implements AuthService {
 
 	private boolean checkIfExistsTcNo(String nationalId) {
 
-		if (this.jobSeekerService.getJobSeekerByNationalId(nationalId).getData() == null) {
+		if (this.candidateService.getCandidateByNationalId(nationalId).getData() == null) {
 			return true;
 		}
 		return false;

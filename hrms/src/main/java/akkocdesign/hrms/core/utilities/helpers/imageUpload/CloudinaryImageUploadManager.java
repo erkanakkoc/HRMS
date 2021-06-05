@@ -1,8 +1,9 @@
 package akkocdesign.hrms.core.utilities.helpers.imageUpload;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
@@ -12,6 +13,7 @@ import akkocdesign.hrms.core.utilities.results.DataResult;
 import akkocdesign.hrms.core.utilities.results.ErrorDataResult;
 import akkocdesign.hrms.core.utilities.results.SuccessDataResult;
 
+@Service("CloudinaryImageUploadManager")
 public class CloudinaryImageUploadManager implements CloudinaryImageUploadService{
 
 	private Cloudinary cloudinary;

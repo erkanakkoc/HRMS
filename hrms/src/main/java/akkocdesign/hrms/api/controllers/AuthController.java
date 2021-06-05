@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import akkocdesign.hrms.business.abstracts.AuthService;
 import akkocdesign.hrms.core.utilities.results.Result;
 import akkocdesign.hrms.entities.concretes.Employer;
-import akkocdesign.hrms.entities.concretes.JobSeeker;
+import akkocdesign.hrms.entities.concretes. Candidate;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,9 +28,9 @@ public class AuthController {
 		return authService.registerEmployer(employer, confirmPassword);
 	}
 	
-	@PostMapping("/registerJobseeker")
-	public Result registerJobseeker(@RequestBody JobSeeker jobSeeker, String confirmPassword)
+	@PostMapping("/registerCandidate")
+	public Result registerCandidate(@RequestBody Candidate candidate, String confirmPassword)
 	{
-		return authService.registerJobSeeker(jobSeeker, confirmPassword);
+		return authService.registerCandidate(candidate, confirmPassword);
 	}
 }

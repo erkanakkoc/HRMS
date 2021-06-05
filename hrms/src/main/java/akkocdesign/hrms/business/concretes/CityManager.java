@@ -11,7 +11,7 @@ import akkocdesign.hrms.core.utilities.results.SuccessDataResult;
 import akkocdesign.hrms.dataAccess.abstracts.CityDao;
 import akkocdesign.hrms.entities.concretes.City;
 
-@Service
+@Service("CityManager")
 public class CityManager implements CityService{
 
 	private CityDao cityDao;

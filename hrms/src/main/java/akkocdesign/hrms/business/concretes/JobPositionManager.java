@@ -15,7 +15,7 @@ import akkocdesign.hrms.core.utilities.results.SuccessResult;
 import akkocdesign.hrms.dataAccess.abstracts.JobPositionDao;
 import akkocdesign.hrms.entities.concretes.JobPosition;
 
-@Service
+@Service("JobPositionManager")
 public class JobPositionManager implements JobPositionService{
 	private JobPositionDao jobPositionDao;
 

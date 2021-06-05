@@ -1,5 +1,5 @@
 package akkocdesign.hrms.business.abstracts;
-
+ 
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -15,4 +15,5 @@ public interface CandidateImageService {
 	DataResult<CandidateImage> getById(int id);	
 	DataResult<List<CandidateImage>> getAll();
 	DataResult<CandidateImage> getByCandidateId(int id);
+	
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import akkocdesign.hrms.business.abstracts.JobAdvertService;
@@ -32,7 +33,7 @@ public class JobAdvertsController {
 	}
 
 	@GetMapping("/getbyid")
-	public DataResult<JobAdvert> getById(int id){
+	public DataResult<JobAdvert> getById(@RequestParam int id){
 		return this.jobAdvertService.getById(id);
 	}
 	
@@ -42,7 +43,7 @@ public class JobAdvertsController {
 	}
 	
 	@PostMapping("/changeOpenToClose")
-	public Result changeOpenToClose(int id){
+	public Result changeOpenToClose(@RequestParam int id){
 		return this.jobAdvertService.changeOpenToClose(id);
 	}
 	
@@ -57,7 +58,7 @@ public class JobAdvertsController {
 	}
 	
 	@GetMapping("/getAllOpenJobAdvertByEmployer")
-	public DataResult<List<JobAdvert>> getAllOpenJobAdvertByEmployer(int id){
+	public DataResult<List<JobAdvert>> getAllOpenJobAdvertByEmployer(@RequestParam int id){
 		return this.jobAdvertService.getAllOpenJobAdvertByEmployer(id);
 	}
 }
